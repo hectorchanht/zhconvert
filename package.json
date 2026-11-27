@@ -1,0 +1,1 @@
+{"dependencies":{"@dawn-studio/zh-convert":"^0.5.0","buffer":"^6.0.3","iconv-lite":"^0.7.3","jszip":"^3.10.2"},"devDependencies":{"vite":"^6.0.0"},"name":"dawn-zhconvert","private":true,"scripts":{"build":"vite build","dev":"vite"},"type":"module","version":"1.0.0"}

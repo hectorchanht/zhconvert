@@ -1,0 +1,157 @@
+<!doctype html>
+<html lang="zh-Hant" data-theme="dark">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="color-scheme" content="light dark" />
+  <meta name="description" content="Dawn ZhConvert — 簡繁轉換 SaaS：貼上文字或上傳文字檔／EPUB 電子書，一鍵轉換，支援 txt/md/srt/vtt/lrc/ass/json/csv/epub" />
+  <meta name="robots" content="index,follow" />
+  <link rel="canonical" href="https://zhconvert.dawnstudio.app/" />
+  <meta property="og:title" content="Dawn ZhConvert · 簡繁轉換" />
+  <meta property="og:description" content="簡繁轉換工具：貼上文字或上傳文字檔／EPUB 電子書，一鍵轉換。OpenCC 多種地區 config（台／港／大陸詞彙），支援 GBK/Big5 舊編碼檔案、批量轉換、多種下載編碼，免費，唔使註冊。" />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://zhconvert.dawnstudio.app/" />
+  <meta property="og:site_name" content="Dawn ZhConvert" />
+  <meta property="og:image" content="https://zhconvert.dawnstudio.app/og.png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:image:alt" content="Dawn ZhConvert · 簡繁轉換 — 文字、字幕、EPUB 一鍵轉換" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Dawn ZhConvert · 簡繁轉換" />
+  <meta name="twitter:description" content="簡繁轉換工具：文字、字幕、EPUB 電子書一鍵轉換，OpenCC 多種地區 config，免費，唔使註冊。" />
+  <meta name="twitter:image" content="https://zhconvert.dawnstudio.app/og.png" />
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "Dawn ZhConvert",
+    "url": "https://zhconvert.dawnstudio.app/",
+    "applicationCategory": "UtilitiesApplication",
+    "operatingSystem": "Web",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+    "inLanguage": "zh-Hant"
+  }
+  </script>
+  <title>Dawn ZhConvert · 簡繁轉換</title>
+  <link rel="icon" href="/favicon.ico" sizes="any" />
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+  <link rel="manifest" href="/site.webmanifest" />
+  <meta name="theme-color" content="#c9563c" />
+  <script>
+    // Theme pre-paint: data-theme is the preference ("dark" | "light" |
+    // "system"). First visit (no saved choice) = dark, regardless of OS;
+    // a saved choice wins. Runs before the stylesheet so there is no
+    // light flash on load. main.js owns the toggle + persistence.
+    (function () {
+      var t = 'dark';
+      try {
+        var s = window.localStorage.getItem('zhconvert:theme');
+        if (s === 'dark' || s === 'light' || s === 'system') t = s;
+      } catch (e) { /* private mode: keep the dark default */ }
+      document.documentElement.setAttribute('data-theme', t);
+    })();
+  </script>
+  <link rel="stylesheet" href="/src/style.css" />
+</head>
+<body>
+  <div class="page">
+    <header class="top">
+      <div class="brand"><img class="brandlogo" src="/logo.png" alt="ZhConvert logo" width="40" height="40" /> Dawn ZhConvert</div>
+      <div class="topside">
+        <div class="sub">簡繁轉換 · Dawn Studio</div>
+        <button id="themeToggle" class="themebtn" type="button" aria-label="切換主題（目前：深色）">主題：深色</button>
+      </div>
+    </header>
+
+    <section class="controls">
+      <div class="seg" role="radiogroup" aria-label="轉換方向">
+        <button data-dir="auto" class="on">自動</button>
+        <button data-dir="s2t">簡 → 繁</button>
+        <button data-dir="t2s">繁 → 簡</button>
+      </div>
+      <label class="cfgwrap">OpenCC config
+        <select id="config" aria-label="OpenCC config">
+          <option value="s2t">s2t · 簡→繁（OpenCC 標準）</option>
+          <option value="s2tw">s2tw · 簡→繁（台灣）</option>
+          <option value="s2hk">s2hk · 簡→繁（香港）</option>
+          <option value="s2twp">s2twp · 簡→繁（台灣詞彙）</option>
+          <option value="s2hkp">s2hkp · 簡→繁（香港詞彙）</option>
+          <option value="t2s">t2s · 繁→簡</option>
+          <option value="tw2s">tw2s · 台灣繁→簡</option>
+          <option value="hk2s">hk2s · 香港繁→簡</option>
+          <option value="tw2sp">tw2sp · 台灣繁→簡（大陸詞彙）</option>
+          <option value="hk2sp">hk2sp · 香港繁→簡（大陸詞彙）</option>
+          <option value="" selected>跟方向掣（預設引擎）</option>
+        </select>
+      </label>
+      <label class="cfgwrap">下載編碼
+        <select id="encodingSel" aria-label="下載編碼">
+          <option value="utf8" selected>UTF-8</option>
+          <option value="utf8-bom">UTF-8 BOM</option>
+          <option value="gb18030">GBK (GB18030)</option>
+          <option value="big5">Big5</option>
+        </select>
+      </label>
+      <div class="status" id="libStatus">字庫懶載入 · 轉換嗰陣先載入要用嗰個</div>
+    </section>
+    <p class="hint cfghint">揀咗 OpenCC config 就跟 config 轉換（地區變體／詞彙）；揀「跟方向掣」先用返上面嘅方向＋預設引擎。下載編碼只影響文字檔下載（EPUB 永遠係 UTF-8）；GBK／Big5 裝唔落嘅生僻字會變做「?」號。</p>
+
+    <section class="drop" id="drop">
+      <p><strong>拖放文字檔／EPUB 到呢度</strong>，或者 <label class="filebtn">選擇檔案<input id="file" type="file" accept=".txt,.md,.markdown,.srt,.vtt,.lrc,.ass,.ssa,.json,.csv,.tsv,.text,.epub" multiple hidden /></label></p>
+      <p class="hint">支援 .txt .md .srt .vtt .lrc .ass .ssa .json .csv .tsv .epub（每個 20MB 內）· 揀多過一個檔會入批量模式，逐個轉完可一次過打包 .zip 下載 · 字幕格式只轉對白，唔掂時間軸 · EPUB 只轉書入面嘅文字，排版原封不動</p>
+      <p class="filename" id="filename"></p>
+      <p class="filename" id="encoding"></p>
+    </section>
+
+    <section class="progress" id="progress" hidden aria-live="polite">
+      <div class="prow">
+        <span class="spinner" id="spinner"></span>
+        <span id="progressText">處理中…</span>
+        <span class="ppct" id="progressPct"></span>
+      </div>
+      <div class="pbar"><div id="progressFill"></div></div>
+    </section>
+
+    <section class="batch" id="batch" hidden>
+      <div class="batchhead"><span>批量轉換</span><span class="count" id="batchSummary"></span></div>
+      <ul class="batchlist" id="batchList"></ul>
+      <div class="row">
+        <button id="downloadZip" class="primary" disabled>全部下載 (.zip)</button>
+      </div>
+    </section>
+
+    <main class="grid">
+      <div class="pane">
+        <div class="panehead"><span>輸入</span><span class="count" id="inCount">0 字</span></div>
+        <textarea id="input" placeholder="貼上要轉換嘅文字…&#10;&#10;例：&#10;简体中文&#10;周杰伦&#10;&#10;或上傳字幕檔（.srt/.vtt/.lrc/.ass）／EPUB 電子書"></textarea>
+        <div class="row">
+          <button id="convert" class="primary">轉換</button>
+          <button id="clear">清空</button>
+        </div>
+      </div>
+      <div class="pane">
+        <div class="panehead"><span>輸出</span><span class="count" id="outCount">0 字</span></div>
+        <textarea id="output" readonly placeholder="轉換結果嘅頭 12 行會出喺呢度（預覽）…全文唔會入框，下載／複製先攞全文"></textarea>
+        <div class="outstats" id="outStats"></div>
+        <details id="diffBox" hidden>
+          <summary id="diffSummary">變動明細</summary>
+          <div class="difflist" id="diffList"></div>
+        </details>
+        <div class="row">
+          <button id="download" class="primary">下載</button>
+          <button id="copy">複製</button>
+        </div>
+      </div>
+    </main>
+
+    <footer class="foot">
+      <span>Powered by <code>@dawn-studio/zh-convert</code> + OpenCC configs (via opencc-js) · Dawn Studio · <a href="/api/" style="color:inherit;text-decoration:underline">API / MCP</a></span><br />
+      <a href="https://dawnstudio.app/#manifesto" style="color:inherit;text-decoration:underline">Dawn 嘅軟件由一位 creator 為自己而起、畀全世界免費用 — 冇廣告、唔賣數據、基本功能永遠免費。代天而行，願你離苦得樂。</a>
+    </footer>
+  </div>
+  <script type="module" src="/src/main.js"></script>
+  <!-- Cloudflare Web Analytics --><script defer src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "5d45bbcaae674e1e9242257316776019"}'></script><!-- End Cloudflare Web Analytics -->
+</body>
+</html>

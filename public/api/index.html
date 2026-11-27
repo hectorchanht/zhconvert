@@ -1,0 +1,118 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="color-scheme" content="light dark" />
+  <meta name="description" content="ZhConvert API & MCP — 文件級簡繁轉換：MCP server 而家即用（npx zhconvert-mcp，俾 Claude／AI 工具直接轉換）；hosted REST API 開發中，開放 waitlist 登記。保留格式轉 EPUB、字幕、JSON，14 個 OpenCC configs，支援 GBK/Big5。" />
+  <meta name="robots" content="index,follow" />
+  <link rel="canonical" href="https://zhconvert.dawnstudio.app/api/" />
+  <meta property="og:title" content="ZhConvert API & MCP · 文件級簡繁轉換" />
+  <meta property="og:description" content="MCP server 即用：npx zhconvert-mcp。Hosted REST API 開發中，登記 waitlist 享早鳥價。保留格式轉 EPUB、字幕、JSON 結構，14 個 OpenCC configs、GBK/Big5 支援、唔保留用家文字。" />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://zhconvert.dawnstudio.app/api/" />
+  <meta property="og:image" content="https://zhconvert.dawnstudio.app/logo.png" />
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="ZhConvert API & MCP · 文件級簡繁轉換" />
+  <meta name="twitter:description" content="MCP server 即用（npx zhconvert-mcp）；REST API waitlist 登記中。保留格式轉 EPUB、字幕、JSON，14 個 OpenCC configs、GBK/Big5 支援。" />
+  <meta name="twitter:image" content="https://zhconvert.dawnstudio.app/logo.png" />
+  <title>ZhConvert API &amp; MCP · 文件級簡繁轉換</title>
+  <link rel="icon" href="/favicon.ico" sizes="any" />
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+  <link rel="manifest" href="/site.webmanifest" />
+  <meta name="theme-color" content="#c9563c" />
+  <style>
+    :root {
+      color-scheme: light dark;
+      --bg: #f7f8f5; --surface: #fff; --ink: #111214; --muted: #555b62;
+      --line: #d4d8db; --brand: #c9563c; --brand-soft: rgba(201, 86, 60, 0.08);
+    }
+    @media (prefers-color-scheme: dark) {
+      :root { --bg: #0d0e10; --surface: #15171a; --ink: #f4f5ef; --muted: #b5bac0; --line: #383c40; --brand-soft: rgba(201, 86, 60, 0.16); }
+    }
+    * { box-sizing: border-box; }
+    body { margin: 0; background: var(--bg); color: var(--ink); font-family: "DM Sans","Noto Sans TC",system-ui,sans-serif; line-height: 1.6; }
+    .page { width: min(100% - 32px, 860px); margin-inline: auto; padding-bottom: 56px; }
+    .top { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 28px 0 10px; border-bottom: 1px solid var(--line); flex-wrap: wrap; }
+    .brand { font-size: 22px; font-weight: 700; display: flex; align-items: center; gap: 10px; }
+    .brand img { width: 40px; height: 40px; border-radius: 10px; display: block; }
+    .brand a { color: inherit; text-decoration: none; }
+    .backlink { color: var(--muted); font-size: 14px; }
+    h1 { font-size: 34px; line-height: 1.25; margin: 30px 0 6px; }
+    h1 .en { display: block; font-size: 17px; color: var(--muted); font-weight: 500; margin-top: 4px; }
+    .lede { font-size: 17px; margin: 10px 0 0; }
+    .card { background: var(--surface); border: 1px solid var(--line); border-radius: 16px; padding: 20px 22px; margin-top: 22px; }
+    .card h2 { margin: 0 0 12px; font-size: 19px; }
+    ul.points { margin: 0; padding-left: 1.25em; }
+    ul.points li { margin: 8px 0; }
+    ul.points .en { color: var(--muted); font-size: 14px; }
+    .status { background: var(--brand-soft); border: 1px solid var(--brand); border-radius: 16px; padding: 18px 22px; margin-top: 22px; }
+    .status strong { color: var(--brand); }
+    .formwrap { margin-top: 22px; }
+    .formwrap iframe { width: 100%; height: 1080px; border: 1px solid var(--line); border-radius: 16px; background: var(--surface); display: block; }
+    .fallback { margin-top: 12px; font-size: 14px; color: var(--muted); }
+    a { color: var(--brand); }
+    .btn { display: inline-block; background: var(--brand); color: #fff; text-decoration: none; font-weight: 700; border-radius: 999px; padding: 9px 20px; }
+    .foot { margin-top: 34px; color: var(--muted); font-size: 13px; text-align: center; }
+    code { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 0.92em; }
+    pre { background: var(--bg); border: 1px solid var(--line); border-radius: 12px; padding: 12px 14px; overflow-x: auto; margin: 10px 0; }
+    pre code { font-size: 13.5px; line-height: 1.5; }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <header class="top">
+      <div class="brand"><a href="/"><img src="/logo.png" alt="ZhConvert logo" width="40" height="40" /></a> Dawn ZhConvert</div>
+      <a class="backlink" href="/">← 返去網頁版轉換器</a>
+    </header>
+
+    <h1>ZhConvert API &amp; MCP<span class="en">Document-level Simplified ⇄ Traditional Chinese conversion — MCP server &amp; hosted REST API</span></h1>
+    <p class="lede">唔止係逐字轉換，而係<strong>成份文件</strong>轉換：格式、結構、排版原封不動，淨係轉應該轉嘅文字。兩個接入方式：<strong>MCP server 而家即用</strong>；hosted REST API 開發中，開放 waitlist 登記。</p>
+
+    <section class="card">
+      <h2>MCP Server — 而家即用</h2>
+      <p><strong>zhconvert-mcp</strong> 係俾 Claude 同其他 AI 工具直接用嘅 MCP server：喺對話入面即刻做簡繁轉換，用齊 <strong>14 個 OpenCC configs</strong>（含香港／台灣地區詞彙），本地行、唔經第三方 server。</p>
+      <p>安裝／行起（install &amp; run）：</p>
+      <pre><code>npx zhconvert-mcp</code></pre>
+      <p>加落 Claude 嘅 MCP 設定（<code>claude_desktop_config.json</code> / <code>.mcp.json</code>）：</p>
+      <pre><code>{
+  "mcpServers": {
+    "zhconvert": {
+      "command": "npx",
+      "args": ["-y", "zhconvert-mcp"]
+    }
+  }
+}</code></pre>
+      <p>套件頁：<a href="https://www.npmjs.com/package/zhconvert-mcp" target="_blank" rel="noopener">npmjs.com/package/zhconvert-mcp</a></p>
+    </section>
+
+    <section class="card">
+      <h2>Hosted REST API 做啲乜</h2>
+      <ul class="points">
+        <li><strong>文件級轉換，保留格式</strong> — EPUB 電子書成本轉、字幕（SRT / VTT / LRC / ASS）只轉對白唔掂時間軸、JSON 只轉字串值唔郁結構。<span class="en">EPUB, subtitles &amp; JSON converted in place — structure untouched.</span></li>
+        <li><strong>14 個 OpenCC configs</strong> — s2t、s2tw、s2hk、s2twp、s2hkp、t2s 等齊全，連香港／台灣地區詞彙都分得開。<span class="en">Full OpenCC config set, incl. Hong Kong &amp; Taiwan vocabularies.</span></li>
+        <li><strong>食舊編碼</strong> — GBK / Big5 編碼嘅舊檔案直接入，唔會出亂碼。<span class="en">GBK &amp; Big5 legacy encodings handled.</span></li>
+        <li><strong>私隱承諾</strong> — 轉換過程唔保留你嘅文字內容。<span class="en">Your text is never retained.</span></li>
+        <li><strong>網頁版永遠免費</strong> — API 係俾需要批量／自動化嘅團隊用；個人用<a href="/">網頁版轉換器</a>一直免費、唔使註冊。</li>
+      </ul>
+    </section>
+
+    <div class="status">
+      <strong>Hosted REST API：開發中，開放 waitlist 登記。</strong> 想自己起 server 行轉換，而家就可以用上面嘅 <strong>MCP server</strong>。REST API 俾想直接 HTTP 接入、唔想自己 host 嘅團隊 — 而家登記 waitlist，有名額會以電郵通知你，登記者會有<strong>早鳥價</strong>。填下面張 form 就得。
+    </div>
+
+    <section class="formwrap" aria-label="REST API Waitlist 登記表">
+      <h2 style="margin:0 0 6px;font-size:19px">REST API Waitlist 登記</h2>
+      <p style="margin:0 0 12px;color:var(--muted);font-size:14px">Sign up for the hosted REST API waitlist — MCP 已可即用，REST API 有位會 email 通知你。</p>
+      <iframe src="https://docs.google.com/forms/d/e/1FAIpQLSfOceRPdipqV5hfxrtVUK8HqM8f9-UHmD8dVpv9HWC6yRYbFQ/viewform?embedded=true" title="ZhConvert REST API — Waitlist 登記表" loading="lazy" frameborder="0" marginheight="0" marginwidth="0">載入緊登記表…</iframe>
+      <p class="fallback">如果上面張 form 載入唔到，可以<a href="https://docs.google.com/forms/d/e/1FAIpQLSfOceRPdipqV5hfxrtVUK8HqM8f9-UHmD8dVpv9HWC6yRYbFQ/viewform" target="_blank" rel="noopener">喺新頁面開登記表</a>。</p>
+    </section>
+
+    <footer class="foot">
+      <span>ZhConvert API &amp; MCP · Dawn Studio 出品 · <a href="/">網頁版轉換器（免費）</a></span>
+    </footer>
+  </div>
+</body>
+</html>

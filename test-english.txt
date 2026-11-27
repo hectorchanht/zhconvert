@@ -1,0 +1,2 @@
+Hello world. This file has no Chinese characters at all.
+Just English text for testing.
